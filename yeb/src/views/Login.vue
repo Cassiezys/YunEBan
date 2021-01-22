@@ -47,7 +47,16 @@
                 this.$refs.loginForm.validate((valid) => {
                     if (valid) {
                         postRequest('/login',this.loginForm).then(resp=>{
+                            /* 查看后端返回的是什么
                             alert(JSON.toString(resp))
+                            */
+                            if (resp){
+                                //存储用户token
+                                const tokenStr = resp.obj.tokenHead + resp.obj.token;
+                                window.sessionStorage.setItem('tokenStr',tokenStr)
+                                // 跳转首页
+                                this.$router.replace('/home')
+                            }
                         })
                     } else {
                         this.$message.error('请输入所有字段');

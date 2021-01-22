@@ -2,6 +2,19 @@ import axios from "axios"
 import { Message } from 'element-ui';
 import router from "@/router";
 
+//请求拦截器
+axios.interceptors.request.use(config=>{
+    //如果存在token
+    if (window.sessionStorage.getItem('tokenStr')){
+        // 对应的config里面 加 一个Authorization 的关键词。
+        config.headers['Authorization'] = window.sessionStorage.getItem('tokenStr');
+    }
+    return config;
+}, error => {
+    console.log(error)
+})
+
+//响应拦截器：对于接口或者后端返回的代码做出回应
 axios.interceptors.response.use(success => {
     if (success.status && success.status == 200){
         //业务逻辑错误
@@ -39,8 +52,36 @@ let base = '';
 // 封装json格式的Post请求 请求的路径，参数
 export const postRequest= (url,params)=>{
     return axios({
-        method:'Post',
+        method:'post',
         url:'${base}${url}',
         data: params
+    })
+}
+
+
+// 封装json的put请求
+export const putRequest=(url,params)=>{
+    return axios({
+        method: 'put',
+        url: '${base}${url}',
+        data:params
+    })
+}
+// 封装json的get请求
+export const getRequest= (url,params)=>{
+    return axios({
+        method:'get',
+        url:'${base}${url}',
+        data: params
+    })
+}
+
+
+// 封装json的delete请求
+export const deleteRequest=(url,params)=>{
+    return axios({
+        method: 'delete',
+        url: '${base}${url}',
+        data:params
     })
 }
