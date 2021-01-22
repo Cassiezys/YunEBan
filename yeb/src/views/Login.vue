@@ -24,8 +24,6 @@
 </template>
 
 <script>
-    import {postRequest} from "@/utils/api";
-
     export default {
         name: "Login",
         data(){
@@ -53,7 +51,7 @@
                 this.$refs.loginForm.validate((valid) => {
                     if (valid) {
                         this.loading=true
-                        postRequest('/login',this.loginForm).then(resp=>{
+                        this.postRequest('/login',this.loginForm).then(resp=>{
                             /* 查看后端返回的是什么
                             alert(JSON.toString(resp))
                             */
